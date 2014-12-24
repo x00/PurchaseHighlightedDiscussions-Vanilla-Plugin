@@ -3,23 +3,13 @@
 $PluginInfo['PurchaseHighlightedDiscussions'] = array(
    'Name' => 'Purchase Highlighted Discussions',
    'Description' => "Allows members to purchase a special Highlight css class for their discussions in the discussion listings.",
-   'Version' => '0.2.1b',
+   'Version' => '0.2.2b',
    'RequiredPlugins' => array('MarketPlace' => '0.1.9b'),
    'RequiredApplications' => array('Vanilla' => '2.1'),
    'Author' => 'Paul Thomas',
    'AuthorEmail' => 'dt01pqt_pt@yahoo.com',
    'AuthorUrl' => 'http://www.vanillaforums.org/profile/x00'
 );
-
-/*
-* # Purchase Anonymous Discussions #
-*
-* ### About ###
-* Allows members to purchase a special Highlight css class for their discussion in the discussions listings.
-* 
-* ### Sponsor ###
-* Special thanks to pxlpshr for making this happen.
-*/
 
 class PurchaseHighlightedDiscussions extends Gdn_Plugin {
     
@@ -102,7 +92,7 @@ class PurchaseHighlightedDiscussions extends Gdn_Plugin {
             $BuySome='';
         if(!$Discussion && $this->HasHighlighted){
             $Args['Options'].='<li>'.$this->ShowOption($Sender->Form,$Message).'</li>';
-        }else if($Discussion && $Discussion->Highlighted){
+        }else if($Discussion && GetValue('Highlighted',$Discussion)){
             $Args['Options'].='<li>'.$this->ShowOption($Sender->Form,$Message,array('checked'=>'checked','disabled'=>'disabled'),TRUE).'</li>';
         }else{
             $Message = T('Highlight Post').$BuySome;
@@ -129,8 +119,8 @@ class PurchaseHighlightedDiscussions extends Gdn_Plugin {
     public function DiscussionModel_BeforeSaveDiscussion_Handler($Sender,&$Args){
         $Feilds = &$Args['FormPostValues'];
         if(GetValue('DiscussionID',$Feilds)|| !GetValue('Highlighted',$Feilds)){
-            if(!$Sender->Discussion->Highlighted){
-                $Feilds['HigAnonUserhlighted']=0;
+            if(!GetValueR('Discussion.Highlighted',$Discussion)){
+                $Feilds['Highlighted']=0;
             }
             return;
         }
@@ -148,7 +138,7 @@ class PurchaseHighlightedDiscussions extends Gdn_Plugin {
     public function Base_BeforeDiscussionName_Handler($Sender,&$Args){
         $CssClass=&$Args['CssClass'];
         $Discussion=$Args['Discussion'];
-        if($Discussion->Highlighted){
+        if(GetValue('Highlighted',$Discussion)){
             $CssClass .= ' Highlight';
         }
     }
