@@ -3,7 +3,7 @@
 $PluginInfo['PurchaseHighlightedDiscussions'] = array(
    'Name' => 'Purchase Highlighted Discussions',
    'Description' => "Allows members to purchase a special Highlight css class for their discussions in the discussion listings.",
-   'Version' => '0.2b',
+   'Version' => '0.2.1b',
    'RequiredPlugins' => array('MarketPlace' => '0.1.9b'),
    'RequiredApplications' => array('Vanilla' => '2.1'),
    'Author' => 'Paul Thomas',
